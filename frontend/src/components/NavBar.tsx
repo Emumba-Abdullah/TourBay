@@ -7,18 +7,24 @@ import Typography from '@mui/material/Typography';
 import Menu from '@mui/material/Menu';
 import MenuIcon from '@mui/icons-material/Menu';
 import Container from '@mui/material/Container';
-import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import logo from './../assets/logo.png';
+import AccountCircleRoundedIcon from '@mui/icons-material/AccountCircleRounded';
+import { NavLink } from "react-router-dom"; 
+const pages = ['Tours', 'Add Tour', 'My Tours'];
+import { logout } from '../store/authuser/authSlice';
+import { useAppSelector, useAppDispatch } from '../store/hooks'
+import { Navigate } from 'react-router-dom';
 
-const pages = ['Tours', 'Add Tours', 'My Tours'];
-const settings = ['Logout'];
 
 export default function NavBar() {
+  const dispatch = useAppDispatch();
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
+   const { isAuthenticated} = useAppSelector((state) => state.auth);
+  const logoutUser = 'Logout';
 
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElNav(event.currentTarget);
@@ -35,9 +41,18 @@ export default function NavBar() {
     setAnchorElUser(null);
   };
 
+  const handleLogout = () => {
+    
+    dispatch(logout());
+
+  }
+
   return (
     <AppBar position="static" sx={{bgcolor:"transparent"}} elevation={0}>
       <Container maxWidth="xl" >
+        {!isAuthenticated && (
+          <Navigate to="/SignIn" replace={true} />
+        )}
         <Toolbar >
           <Box sx={{ flexGrow: 1,display: { xs: 'none', md: 'flex' }, mr: 1 }}>
              <img src={logo} alt="Kitty Katty!" style={{maxWidth:'300px', maxHeight:'40px'}} />
@@ -50,7 +65,7 @@ export default function NavBar() {
               aria-controls="menu-appbar"
               aria-haspopup="true"
               onClick={handleOpenNavMenu}
-              color="inherit"
+              color="black"
             >
               <MenuIcon />
             </IconButton>
@@ -80,16 +95,22 @@ export default function NavBar() {
             </Menu>
           </Box>
           <Box sx={{ flexGrow:1,display: { xs: 'flex', md: 'none' }, mr: 1, }}>
-             <img src={logo} alt="Kitty Katty!" style={{maxWidth:'300px', maxHeight:'40px'}} />
+             <img src={logo} alt="TourBay" style={{maxWidth:'300px', maxHeight:'40px'}} />
           </Box>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' }, marginRight:10}}>
             {pages.map((page) => (
               <Button
                 key={page}
                 onClick={handleCloseNavMenu}
-                sx={{ my: 2, color: 'white', display: 'block', marginLeft:10}}
+                sx={{ my: 2, color: 'black', display: 'block', marginLeft:10}}
               >
-                {page}
+              <NavLink
+               to={`/${page.replace(/\s+/g, '')}`}
+               className={({ isActive, isPending }) =>
+               isPending ? "pending" : isActive ? "active" : ""
+               }>
+                  {page}
+                </NavLink>
               </Button>
             ))}
           </Box>
@@ -97,7 +118,7 @@ export default function NavBar() {
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                <AccountCircleRoundedIcon sx={{fontSize:30}}/>
               </IconButton>
             </Tooltip>
             <Menu
@@ -116,11 +137,11 @@ export default function NavBar() {
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
-              {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  <Typography textAlign="center">{setting}</Typography>
+              <MenuItem onClick={handleCloseUserMenu}>
+                <Button onClick={handleLogout}>
+                  {logoutUser}
+                </Button>
                 </MenuItem>
-              ))}
             </Menu>
           </Box>
         </Toolbar>

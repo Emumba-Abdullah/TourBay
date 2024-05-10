@@ -5,6 +5,7 @@ import Register from "./pages/Register";
 import MyTours from "./pages/MyTours";
 import AddTour from "./pages/AddTour";
 import ProtectedRoute from "./ProtectedRoute";
+import Tours from "./pages/Tours";
 
 const router = createBrowserRouter([
   {
@@ -30,6 +31,10 @@ const router = createBrowserRouter([
       {
         path: "/AddTour",
         element: <AddTour />,
+      },
+      {
+        path: "/Tours",
+        element: <Tours />,
       },
     ],
   },

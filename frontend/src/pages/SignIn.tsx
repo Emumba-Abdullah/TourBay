@@ -8,11 +8,11 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
 import { loginUser } from '../services/auth';
 import { Navigate } from "react-router-dom";
-import { login, logout } from '../store/authuser/authSlice';
+import { login} from '../store/authuser/authSlice';
 import { useAppSelector, useAppDispatch } from '../store/hooks'
 
 const SignIn = () => {
-  const { isAuthenticated, user } = useAppSelector((state) => state.auth);
+  const { isAuthenticated} = useAppSelector((state) => state.auth);
   const dispatch = useAppDispatch();
 
   const handleSubmit = async (event: React.SyntheticEvent) => {
