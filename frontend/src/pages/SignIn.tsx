@@ -7,9 +7,9 @@ import Button from '@mui/material/Button';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
 import { loginUser } from '../services/auth';
-
-import { login, logout } from './../app/authuser/authSlice';
-import { useAppSelector, useAppDispatch } from './../app/authuser/hooks'
+import { Navigate } from "react-router-dom";
+import { login, logout } from '../store/authuser/authSlice';
+import { useAppSelector, useAppDispatch } from '../store/hooks'
 
 const SignIn = () => {
   const { isAuthenticated, user } = useAppSelector((state) => state.auth);
@@ -25,14 +25,16 @@ const SignIn = () => {
     const userData = {
       email: data.get('email'),
       token: String(response.data.token)
-     };
-    dispatch(login(userData));
-    
-    console.log(user.email)
+    };
+    dispatch(login(userData))
+    console.log(isAuthenticated);
   };
 
   return (
     <Container maxWidth="xs">
+      {isAuthenticated && (
+          <Navigate to="/HomePage" replace={true} />
+        )}
       <Box
         sx={{
           marginTop: 8,

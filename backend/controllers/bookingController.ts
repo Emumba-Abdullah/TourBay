@@ -28,7 +28,6 @@ const addBooking = async (req: CustomRequest, res: Response) => {
     });
     res.status(200).send(newBooking);
   } catch (error) {
-    console.log(error, "hey");
     res.status(401).send(error);
   }
 };
