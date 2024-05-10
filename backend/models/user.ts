@@ -26,6 +26,7 @@ const userSchema = new Schema<IUser, UserModel, IUserMethods>({
   tokens: [{ token: { type: String, required: true } }],
 });
 
+// pre-save Hook middlewarefunction which will encrypt the password before saving in db.
 userSchema.pre("save", async function (next) {
   if (this.isModified("password")) {
     this.password = await bcrypt.hash(this.password, 8);

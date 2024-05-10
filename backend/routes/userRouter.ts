@@ -33,14 +33,12 @@ router.post("/login", async (req, res) => {
   return res.status(200).json(loggedInUser);
 });
 
-// Fetch logged in user
-router.get("/me", auth, async (req: CustomRequest, res) => {
+router.get("/", auth, async (req: CustomRequest, res) => {
   return res.status(200).json({
     user: req.user,
   });
 });
 
-// Logout user
 router.post("/logout", auth, async (req: CustomRequest, res) => {
   if (req.user) {
     req.user.tokens = req.user.tokens.filter((token) => {
@@ -54,7 +52,6 @@ router.post("/logout", auth, async (req: CustomRequest, res) => {
   });
 });
 
-// Logout user from all devices
 router.post("/logoutall", auth, async (req: CustomRequest, res) => {
   if (req.user) {
     req.user.tokens = [];

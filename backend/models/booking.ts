@@ -1,4 +1,16 @@
-import { Schema, model } from "mongoose";
+import { Schema, model, Document, Model, HydratedDocument } from "mongoose";
+
+export interface IBooking extends Document {
+  name: string;
+  email: string;
+  phoneNo: string;
+  price: string;
+  numOfAdults: string;
+  numOfChilds: string;
+  paymentMethod: string;
+  tours?: Schema.Types.ObjectId | string;
+  userId?: Schema.Types.ObjectId | string;
+}
 
 const bookingSchema = new Schema({
   name: {
@@ -36,4 +48,5 @@ const bookingSchema = new Schema({
   },
 });
 
-export const Tours = model("Bookings", bookingSchema);
+const Booking = model<IBooking>("Booking", bookingSchema);
+export default Booking;

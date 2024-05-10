@@ -1,17 +1,17 @@
 import dotenv from "dotenv";
-import express, { Request, Response, NextFunction } from "express";
+import express from "express";
 import { connect_database } from "./utils/connect_db";
 import userRouter from "./routes/userRouter";
-
+import tourRouter from "./routes/tourRouter";
+import bookingRouter from "./routes/bookingRouter";
 dotenv.config();
 
 const app = express();
 
 app.use(express.json());
 app.use("/user", userRouter);
-app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
-  res.status(500).json({ message: err.message });
-});
+app.use("/tour", tourRouter);
+app.use("/booking", bookingRouter);
 
 connect_database();
 
