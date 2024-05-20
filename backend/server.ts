@@ -5,6 +5,7 @@ import userRouter from "./routes/userRouter";
 import tourRouter from "./routes/tourRouter";
 import bookingRouter from "./routes/bookingRouter";
 import cors from "cors";
+
 dotenv.config();
 
 const app = express();

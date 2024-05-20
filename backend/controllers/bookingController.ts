@@ -88,4 +88,28 @@ const updateBooking = async (req: CustomRequest, res: Response) => {
   }
 };
 
-export { addBooking, getAllBookings, deleteBooking, updateBooking };
+const getBookingById = async (req: CustomRequest, res: Response) => {
+  try {
+    const id = req.params.id;
+    const booking = await Booking.findById(id);
+    if (!booking) {
+      return res.status(404).json({ message: "Booking not found" });
+    }
+    if (String(booking.userId) !== req.user?.id) {
+      return res
+        .status(403)
+        .json({ message: "Forbidden: This booking doesn't belong to you" });
+    }
+    res.status(200).send(booking);
+  } catch (error) {
+    res.status(500).json({ message: getErrorMessage(error) });
+  }
+};
+
+export {
+  addBooking,
+  getAllBookings,
+  deleteBooking,
+  updateBooking,
+  getBookingById,
+};
