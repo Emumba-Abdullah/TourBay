@@ -1,16 +1,18 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
+import CssBaseline from '@mui/material/CssBaseline'
+import { Provider } from 'react-redux'
+import { RouterProvider } from 'react-router-dom'
+
+import authStore from './store/Store.ts'
+import router from './Router.tsx'
 import './index.css'
-import { Provider } from 'react-redux';
-import authStore from './store/Store.ts';
-import { RouterProvider } from 'react-router-dom';
-import router from './Router.tsx';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
-  <Provider store={authStore}>
-  <React.StrictMode>
-     <RouterProvider router={router} />
-    </React.StrictMode>
+    <Provider store={authStore}>
+        <React.StrictMode>
+            <CssBaseline />
+            <RouterProvider router={router} />
+        </React.StrictMode>
     </Provider>
-  ,
 )

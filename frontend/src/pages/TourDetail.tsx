@@ -1,0 +1,142 @@
+
+import { useEffect } from "react";
+import { useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import NavBar from "../components/NavBar";
+import WeatherCard from "../components/WeatherCard";
+import TourFeaturesTable from "../components/TourFeaturesTable";
+import LocationOnIcon from "@mui/icons-material/LocationOn";
+import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
+import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
+
+import {
+  Container,
+  TourTitle,
+  DetailsBox,
+  IconText,
+  Image,
+  GalleryImage,
+  DescriptionText,
+  BookButton,
+} from "./../styles/TourDetailsStyle";
+import { Typography, Grid, IconButton } from "@mui/material";
+
+export default function MyTours() {
+  const location = useLocation();
+  const tourData = location.state;
+  const navigate = useNavigate();
+
+  useEffect(() => {});
+
+  const handleBookButtonClick = () => {
+    navigate("/BookTour", { state: tourData });
+  };
+
+  return (
+    <>
+      <NavBar />
+      <Container>
+        <TourTitle variant="h4">{tourData.name}</TourTitle>
+        <DetailsBox>
+          <IconText>
+            <IconButton>
+              <LocationOnIcon sx={{ fontSize: 20 }} />
+            </IconButton>
+            <Typography variant="body1">{tourData.city}</Typography>
+          </IconText>
+          <IconText>
+            <IconButton>
+              <AttachMoneyIcon />
+            </IconButton>
+            <Typography variant="body1">{tourData.price}</Typography>
+          </IconText>
+          <IconText>
+            <IconButton>
+              <CalendarTodayIcon />
+            </IconButton>
+            <Typography variant="body1">{tourData.duration} days</Typography>
+          </IconText>
+        </DetailsBox>
+
+        <Grid
+          container
+          spacing={3}
+          alignItems="center"
+          justifyContent="center"
+          sx={{ height: "50vh", mt: 2 }}
+        >
+          <Grid
+            item
+            xs={12}
+            md={6}
+            sx={{ display: "flex", justifyContent: "center" }}
+          >
+            <Image
+              src="https://images.pexels.com/photos/1619317/pexels-photo-1619317.jpeg?auto=compress&cs=tinysrgb&w=600"
+              alt="Tour"
+            />
+          </Grid>
+
+          <Grid
+            item
+            xs={12}
+            md={6}
+            sx={{ display: "flex", justifyContent: "center" }}
+          >
+            <Grid
+              container
+              spacing={2}
+              sx={{ height: "100%", maxWidth: "100%" }}
+            >
+              {[1, 2, 3, 4].map((item) => (
+                <Grid
+                  key={item}
+                  item
+                  xs={6}
+                  sx={{ display: "flex", justifyContent: "center" }}
+                >
+                  <GalleryImage
+                    src="https://source.unsplash.com/random"
+                    alt={`Image ${item}`}
+                  />
+                </Grid>
+              ))}
+            </Grid>
+          </Grid>
+        </Grid>
+
+        <DescriptionText variant="body1">
+          {tourData.description}
+        </DescriptionText>
+
+        <Typography variant="h3" sx={{ mb: 7 }}>
+          What's Included?
+        </Typography>
+        <TourFeaturesTable tourData={tourData} />
+
+        <Typography variant="h3" sx={{ mb: 7, mt: 7 }}>
+          Itinerary Schedule
+        </Typography>
+        <Grid container spacing={3}>
+          <Grid item xs={12} md={4}>
+            <WeatherCard />
+          </Grid>
+          <Grid item xs={12} md={4}>
+            <WeatherCard />
+          </Grid>
+          <Grid item xs={12} md={4}>
+            <WeatherCard />
+          </Grid>
+        </Grid>
+
+        <BookButton
+          variant="contained"
+          size="large"
+          onClick={handleBookButtonClick}
+        >
+          Book now
+        </BookButton>
+      </Container>
+    </>
+  );
+}
