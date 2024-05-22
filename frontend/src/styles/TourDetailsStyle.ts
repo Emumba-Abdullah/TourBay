@@ -1,4 +1,3 @@
-/** @jsxImportSource @emotion/react */
 import styled from '@emotion/styled'
 import { Box, Button, Typography } from '@mui/material'
 

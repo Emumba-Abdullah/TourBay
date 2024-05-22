@@ -1,19 +1,36 @@
+// React and React Hooks
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as yup from 'yup';
+
+// Material UI Components
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
 import Snackbar from '@mui/material/Snackbar';
 import Alert from '@mui/material/Alert';
-import { useForm } from 'react-hook-form';
+
+// Material UI Icons
+import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
+
+// Utilities and Libraries
 import { registerUserApiCall } from '../utils/apiUtils';
 
+// Validation Schema
+const schema = yup.object().shape({
+  email: yup.string().email('Invalid email').required('Email is required'),
+  password: yup.string().min(8, 'Password must be at least 8 characters').required('Password is required'),
+});
+
 const Register = () => {
-  const { register, handleSubmit } = useForm();
+  const { register, handleSubmit, formState: { errors } } = useForm({
+    resolver: yupResolver(schema),
+  });
   const navigate = useNavigate();
   const [snackbar, setSnackbar] = useState({ open: false, message: '', severity: 'success' });
 
@@ -49,7 +66,7 @@ const Register = () => {
         </Typography>
         <Box component="form" onSubmit={handleSubmit(onSubmit)} sx={{ mt: 3 }}>
           <TextField
-            {...register('email', { required: true })}
+            {...register('email')}
             margin="normal"
             required
             fullWidth
@@ -58,6 +75,8 @@ const Register = () => {
             name="email"
             autoComplete="email"
             autoFocus
+            error={!!errors.email}
+            helperText={errors.email?.message}
             InputProps={{
               startAdornment: (
                 <PersonOutlineIcon
@@ -71,7 +90,7 @@ const Register = () => {
             }}
           />
           <TextField
-            {...register('password', { required: true })}
+            {...register('password')}
             margin="normal"
             required
             fullWidth
@@ -80,6 +99,8 @@ const Register = () => {
             type="password"
             id="password"
             autoComplete="current-password"
+            error={!!errors.password}
+            helperText={errors.password?.message}
             InputProps={{
               startAdornment: (
                 <LockOutlinedIcon

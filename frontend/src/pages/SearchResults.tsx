@@ -1,11 +1,21 @@
-import {  Grid, Typography } from '@mui/material';
+// React and React Router
+import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
+
+// Material UI Components
+import { Grid, Typography } from '@mui/material';
+
+// Components
 import NavBar from '../components/NavBar';
 import DestinationCard from '../components/DestinationCard';
+
+// Utilities and Helpers
 import { getChoosedTours } from '../utils/helpers';
-import { useEffect, useState } from 'react';
 import NotFoundImage from "./../assets/notFoundImage.png";
-import { Container,Title,GridContainer,NoResultsContainer,NoResultsImage } from '../styles/searchResultsStyles';
+
+// Styles
+import { Container, Title, GridContainer, NoResultsContainer, NoResultsImage } from '../styles/searchResultsStyles';
+
 interface ITour {
     _id: string;
     name: string;

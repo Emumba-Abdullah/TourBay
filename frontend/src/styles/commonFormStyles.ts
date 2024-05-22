@@ -25,8 +25,8 @@ export const StyledImage = styled.img`
 export const StyledBox = styled(Box)`
     display: flex;
     flex-direction: column;
-    width: 50%; 
-    paddingRight: 10,
-    height: 80vh,
-    margin-top: "64px"
+    width: 50%;
+    padding-right: 10%;
+    height: 80vh;
+    margin-top: 64px;
 `

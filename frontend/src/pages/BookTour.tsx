@@ -1,18 +1,30 @@
-import { useForm } from 'react-hook-form';
+// React and React Hooks
 import * as React from 'react';
+import { useForm } from 'react-hook-form';
+
+// Components
 import NavBar from '../components/NavBar';
 
-
+// Material UI Components
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import Snackbar from '@mui/material/Snackbar';
 import Alert from '@mui/material/Alert';
+
+// React Router
 import { useLocation } from 'react-router-dom';
+
+// Utilities and Libraries
 import { AddBookingApiCall } from '../utils/apiUtils';
-import { IBooking } from '../types/types';
+
+// Styles
 import { FormContainer, StyledImage } from '../styles/commonFormStyles';
+
+// Types
+import { IBooking } from '../types/types';
+
 
 
 export default function BookTour() {

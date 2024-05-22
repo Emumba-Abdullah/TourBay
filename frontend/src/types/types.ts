@@ -28,3 +28,15 @@ export interface IBooking {
     tours?: string
     userId?: string
 }
+
+export interface IWeatherCardProps {
+    temprature: number
+    day: number
+}
+
+export interface IAlertDialogProps {
+    cityName: string
+    open: boolean
+    onClose: () => void
+    onConfirmDelete: () => void
+}

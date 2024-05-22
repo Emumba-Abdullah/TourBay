@@ -1,20 +1,30 @@
-
+// React and React Hooks
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
+// Material UI Components
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
 import Snackbar from '@mui/material/Snackbar';
 import Alert from '@mui/material/Alert';
 
-import { loginUser } from '../services/auth';
-import { Navigate, useNavigate } from 'react-router-dom';
-import { login } from '../store/authuser/authSlice';
+// Material UI Icons
+import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
+
+// Redux and React Router
+import { Navigate } from 'react-router-dom';
 import { useAppSelector, useAppDispatch } from '../store/hooks';
+
+// Services
+import { loginUser } from '../services/auth';
+
+// Store (Redux) Hooks
+import { login } from '../store/authuser/authSlice';
+
 
 const SignIn = () => {
     const { isAuthenticated } = useAppSelector((state) => state.auth);

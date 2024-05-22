@@ -1,19 +1,31 @@
+// React
 import * as React from "react";
-import { css } from "@emotion/react";
+
+// Material UI Components
 import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 import IconButton from "@mui/material/IconButton";
-import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
-import ScheduleIcon from "@mui/icons-material/Schedule";
-import DeleteIcon from "@mui/icons-material/Delete";
 import Snackbar from "@mui/material/Snackbar";
 import Alert from "@mui/material/Alert";
 import { Box } from "@mui/material";
-import { useNavigate } from "react-router-dom";
 
+// Material UI Icons
+import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
+import ScheduleIcon from "@mui/icons-material/Schedule";
+import DeleteIcon from "@mui/icons-material/Delete";
+
+// Components
+import { useNavigate } from "react-router-dom";
+import AlertDialog from "./AlertDialog";
+
+// Utilities
 import { deleteBookingApiCall } from "../utils/apiUtils";
+
+// Types
 import { IDestinationCardProps } from "../types/types";
+
+// Styles
 import {
   StyledCard,
   StyledCardMedia,
@@ -22,16 +34,19 @@ import {
   StyledButton,
 } from "../styles/destinationCardStyles";
 
+
 export default function DestinationCard({
   tourData,
   fromMyTours,
   bookingId,
+  handleUiChanges
 }: IDestinationCardProps) {
 
   const navigate = useNavigate();
   const [hovered, setHovered] = React.useState(false);
   const [snackbarOpen, setSnackbarOpen] = React.useState(false);
   const [snackbarMessage, setSnackbarMessage] = React.useState("");
+  const [openAlert, setOpenAlert]= React.useState(false);
 
   const handleHover = () => {
     setHovered(!hovered);
@@ -44,7 +59,24 @@ export default function DestinationCard({
   };
 
   const handleDelete = async () => {
-    const currentDate = new Date();
+    setOpenAlert(true);
+  };
+
+  const handleUpdateBooking = () => {
+    navigate("/updateBooking", { state: { bookingId, tourData, startDate } });
+  };
+
+  const handleCloseSnackbar = () => {
+    setSnackbarOpen(false);
+  };
+
+  const handleCloseAlert = () => {
+    setOpenAlert(false);
+  }
+
+  const handelConfirmDelete = async () => {
+    setOpenAlert(false);
+     const currentDate = new Date();
     const startDateObj = new Date(tourData.startDate);
     const timeDifference = startDateObj.getTime() - currentDate.getTime();
     const daysDifference = timeDifference / (1000 * 3600 * 24);
@@ -60,7 +92,7 @@ export default function DestinationCard({
     try {
       const response = await deleteBookingApiCall(bookingId);
       console.log(response);
-      navigate("/tours");
+      handleUiChanges(tourData._id);
     } catch (error) {
       console.error("Failed to delete booking:", error);
       setSnackbarMessage(
@@ -68,21 +100,13 @@ export default function DestinationCard({
       );
       setSnackbarOpen(true);
     }
-  };
-
-  const handleUpdateBooking = () => {
-    navigate("/updateBooking", { state: { bookingId, tourData, startDate } });
-  };
-
-  const handleCloseSnackbar = () => {
-    setSnackbarOpen(false);
-  };
-
+  }
   return (
     <StyledCard onMouseEnter={handleHover} onMouseLeave={handleHover}>
+     <AlertDialog cityName={tourData.city} open={openAlert} onClose={handleCloseAlert} onConfirmDelete={handelConfirmDelete}/>
       <StyledCardMedia image={images[0]} title="Image" />
       <CardContent>
-        <TitleTypography gutterBottom variant="h5" component="div">
+        <TitleTypography gutterBottom variant="h5" >
           {name}
         </TitleTypography>
         <DescriptionTypography variant="body2" color="text.secondary">
@@ -103,9 +127,6 @@ export default function DestinationCard({
                 size="small"
                 aria-label="delete"
                 onClick={handleDelete}
-                css={css`
-                  color: red;
-                `}
               >
                 <DeleteIcon />
               </IconButton>
@@ -130,10 +151,7 @@ export default function DestinationCard({
               size="small"
               variant="contained"
               onClick={handleCardClick}
-              css={css`
-                padding: 10px 20px;
-                border-radius: 20px;
-              `}
+              sx={{padding:"10px 20px",borderRadius:"20px"}}  
             >
               View Details
             </StyledButton>

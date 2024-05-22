@@ -1,12 +1,18 @@
+// Material UI Components
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableRow from '@mui/material/TableRow';
 import Typography from '@mui/material/Typography';
-import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import { Box } from '@mui/material';
+
+// Material UI Icons
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+
+// Types
 import { ITour } from '../types/types';
+
 
 export default function TourFeaturesTable({ tourData }:ITour) {
     const rows = [

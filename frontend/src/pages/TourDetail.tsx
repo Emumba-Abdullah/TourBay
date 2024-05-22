@@ -1,14 +1,18 @@
+// React and React Router
+import { useLocation, useNavigate } from "react-router-dom";
 
-import { useEffect } from "react";
-import { useLocation } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
+// Components
 import NavBar from "../components/NavBar";
 import WeatherCard from "../components/WeatherCard";
 import TourFeaturesTable from "../components/TourFeaturesTable";
+
+// Material UI Components and Icons
+import { Typography, Grid, IconButton } from "@mui/material";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
 import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
 
+// Styles
 import {
   Container,
   TourTitle,
@@ -19,14 +23,14 @@ import {
   DescriptionText,
   BookButton,
 } from "./../styles/TourDetailsStyle";
-import { Typography, Grid, IconButton } from "@mui/material";
+
+
 
 export default function MyTours() {
   const location = useLocation();
   const tourData = location.state;
-  const navigate = useNavigate();
+  const navigate = useNavigate();  
 
-  useEffect(() => {});
 
   const handleBookButtonClick = () => {
     navigate("/BookTour", { state: tourData });
@@ -119,13 +123,13 @@ export default function MyTours() {
         </Typography>
         <Grid container spacing={3}>
           <Grid item xs={12} md={4}>
-            <WeatherCard />
+            <WeatherCard temprature={10} day={1} />
           </Grid>
           <Grid item xs={12} md={4}>
-            <WeatherCard />
+            <WeatherCard temprature={20} day={2}/>
           </Grid>
           <Grid item xs={12} md={4}>
-            <WeatherCard />
+            <WeatherCard temprature={40} day={3}/>
           </Grid>
         </Grid>
 

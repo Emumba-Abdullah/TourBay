@@ -1,24 +1,32 @@
+// React and React Router
 import * as React from 'react'
 import { Navigate } from 'react-router-dom'
 
+// Material UI Components
 import AppBar from '@mui/material/AppBar'
 import Box from '@mui/material/Box'
 import Toolbar from '@mui/material/Toolbar'
 import IconButton from '@mui/material/IconButton'
 import Typography from '@mui/material/Typography'
 import Menu from '@mui/material/Menu'
-import MenuIcon from '@mui/icons-material/Menu'
 import Container from '@mui/material/Container'
 import Button from '@mui/material/Button'
 import Tooltip from '@mui/material/Tooltip'
 import MenuItem from '@mui/material/MenuItem'
-import logo from './../assets/logo.png'
+
+// Material UI Icons
+import MenuIcon from '@mui/icons-material/Menu'
 import AccountCircleRoundedIcon from '@mui/icons-material/AccountCircleRounded'
 
-
+// Store (Redux) Hooks
 import { logout } from '../store/authuser/authSlice'
 import { useAppSelector, useAppDispatch } from '../store/hooks'
+
+// Styles
 import { StyledNavItems, StyledNavLink } from '../styles/navbarStyles'
+
+// Logo
+import logo from './../assets/logo.png'
 
 
 const pages = ['Tours', 'Add Tour', 'My Tours']
