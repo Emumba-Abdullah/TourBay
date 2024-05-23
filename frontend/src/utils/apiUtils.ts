@@ -120,3 +120,10 @@ export const registerUserApiCall = async (data) => {
     const response = await axios.post(url, data)
     return response.data
 }
+
+export const getFilteredToursApiCall = async (choice) => {
+    console.log(choice)
+    const url = `http://localhost:3000/tour/filtered`
+    const response = await axios.get(url, { params: choice })
+    return response.data
+}

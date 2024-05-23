@@ -1,6 +1,6 @@
 // React and React Router
 import * as React from 'react'
-import { Navigate } from 'react-router-dom'
+import { Navigate,useNavigate } from 'react-router-dom'
 
 // Material UI Components
 import AppBar from '@mui/material/AppBar'
@@ -33,6 +33,7 @@ const pages = ['Tours', 'Add Tour', 'My Tours']
 
 export default function NavBar() {
     const dispatch = useAppDispatch()
+    const navigate = useNavigate();
     const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
         null
     )
@@ -62,6 +63,10 @@ export default function NavBar() {
         dispatch(logout())
     }
 
+    const handleLogoClick = () => {
+        navigate('/homePage')
+    }
+
     return (
         <AppBar position="static" sx={{ bgcolor: 'transparent', paddingLeft:5, paddingRight:5}} elevation={0}>
             <Container maxWidth="xl">
@@ -73,6 +78,7 @@ export default function NavBar() {
                             display: { xs: 'none', md: 'flex' },
                             mr: 1,
                         }}
+                        onClick={handleLogoClick}
                     >
                         <img
                             src={logo}

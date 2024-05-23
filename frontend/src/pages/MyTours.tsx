@@ -50,7 +50,7 @@ export default function Tours() {
     <NavBar/>
      <Box sx={{width:"100vw", paddingLeft:"12%",paddingRight:"12%", mb:14 , paddingTop:10}}>
       {toursData.length > 0 && (
-        <Grid container spacing={2}>
+        <Grid container spacing={4}>
           {toursData.map((tour) => (
             <Grid item xs={6} md={4} lg={3} key={tour._id}>
               <DestinationCard tourData={tour} fromMyTours={true} bookingId={getBookingId(tour._id)} handleUiChanges={ handleUiChanges} />

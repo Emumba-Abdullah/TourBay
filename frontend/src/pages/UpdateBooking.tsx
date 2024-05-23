@@ -25,7 +25,7 @@ import { FormContainer, StyledBox, StyledImage } from '../styles/commonFormStyle
 // Types
 import { IBooking } from '../types/types';
 
-
+// Validation schema
 const schema = yup.object({
   name: yup.string().required('Name is required'),
   email: yup.string().email('Invalid email').required('Email is required'),
@@ -45,9 +45,10 @@ export default function UpdateBooking() {
     register,
     handleSubmit,
     setValue,
-    formState: { errors },
+    formState: { errors, isDirty, isValid },
   } = useForm({
-    resolver: yupResolver(schema)
+    resolver: yupResolver(schema),
+    mode: 'onChange',
   });
 
   useEffect(() => {
@@ -66,7 +67,6 @@ export default function UpdateBooking() {
 
   const onSubmit = async (data: IBooking) => {
     data.tours = initialData?.tours;
-    console.log(data);
     await updateBookingApiCall(bookingId, data);
     navigate('/myTours');
   };
@@ -162,6 +162,7 @@ export default function UpdateBooking() {
               fullWidth
               variant="contained"
               sx={{ mt: 3, mb: 2, bgcolor: "#F16B51" }}
+              disabled={!isDirty || !isValid}
             >
               Update Now
             </Button>

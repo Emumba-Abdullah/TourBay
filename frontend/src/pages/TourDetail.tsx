@@ -1,4 +1,5 @@
 // React and React Router
+import { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
 // Components
@@ -24,17 +25,40 @@ import {
   BookButton,
 } from "./../styles/TourDetailsStyle";
 
+// Types
+import { ITour } from "../types/types";
 
+// Utils
+import { getTourById } from "../utils/apiUtils";
 
-export default function MyTours() {
+const MyTours = () => {
+  const [tourData, setTourData] = useState<ITour | null>(null);
   const location = useLocation();
-  const tourData = location.state;
-  const navigate = useNavigate();  
+  const navigate = useNavigate();
+  const tourId = location.state;
 
+  useEffect(() => {
+    if (tourId) {
+      fetchTourDataById();
+    }
+  }, [tourId]);
+
+  const fetchTourDataById = async () => {
+    try {
+      const fetchedData = await getTourById(tourId);
+      setTourData(fetchedData);
+    } catch (error) {
+      console.error("Error fetching tour data:", error);
+    }
+  };
 
   const handleBookButtonClick = () => {
     navigate("/BookTour", { state: tourData });
   };
+
+  if (!tourData) {
+    return null; 
+  }
 
   return (
     <>
@@ -123,13 +147,13 @@ export default function MyTours() {
         </Typography>
         <Grid container spacing={3}>
           <Grid item xs={12} md={4}>
-            <WeatherCard temprature={10} day={1} />
+            <WeatherCard temperature={10} day={1} />
           </Grid>
           <Grid item xs={12} md={4}>
-            <WeatherCard temprature={20} day={2}/>
+            <WeatherCard temperature={20} day={2} />
           </Grid>
           <Grid item xs={12} md={4}>
-            <WeatherCard temprature={40} day={3}/>
+            <WeatherCard temperature={30} day={3} />
           </Grid>
         </Grid>
 
@@ -143,4 +167,6 @@ export default function MyTours() {
       </Container>
     </>
   );
-}
+};
+
+export default MyTours;

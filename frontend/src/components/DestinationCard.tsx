@@ -55,7 +55,7 @@ export default function DestinationCard({
   const { name, description, price, duration, images, startDate } = tourData;
 
   const handleCardClick = () => {
-    navigate("/TourDetail", { state: tourData });
+    navigate("/TourDetail", { state: tourData._id });
   };
 
   const handleDelete = async () => {
@@ -183,7 +183,7 @@ export default function DestinationCard({
                 fontWeight: 400,
               }}
             >
-              {duration}
+              {duration} day/s
             </Typography>
           </Box>
         )}

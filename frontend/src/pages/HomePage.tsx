@@ -25,7 +25,7 @@ import SelectPrice from "../components/SelectPrice";
 import SelectDate from "../components/SelectDate";
 
 // Helpers and Utils
-import { getChoosedTours, popularSearches } from "../utils/helpers";
+import {popularSearches } from "../utils/helpers";
 
 
 import {
@@ -36,6 +36,7 @@ import {
   Item,
   DatePickerContainer,
 } from "../styles/HomePageStyles";
+import { getFilteredToursApiCall } from "../utils/apiUtils";
 
 export default function HomePage() {
   const [isCalendarOpen, setIsCalendarOpen] = useState(false);
@@ -43,9 +44,13 @@ export default function HomePage() {
   const methods = useForm();
   const navigate = useNavigate();
 
-  const onSubmit = (data) => {
-    getChoosedTours(data);
-    navigate("/searchResults", { state: data });
+  const onSubmit = async (data) => {
+    const startDate = data.date.selection.startDate;
+    const endDate = data.date.selection.endDate; 
+    const city = data.location;
+    const priceRange = data.priceRange;
+    const filteredTours = await getFilteredToursApiCall({ startDate, endDate, city, priceRange });
+    filteredTours.length>0?  navigate("/searchResults", { state: filteredTours }):navigate("/searchResults", { state: city })
   };
 
   const toggleCalendar = () => {

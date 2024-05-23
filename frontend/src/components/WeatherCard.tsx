@@ -25,7 +25,7 @@ const activities = [
     { icon: <SportsMotorsportsIcon sx={{ marginRight: '8px' }} />, text: 'Adventure sports' },
 ];
 
-export default function WeatherCard({ temprature, day }: IWeatherCardProps) {
+export default function WeatherCard({ temperature, day }: IWeatherCardProps) {
     const getWeatherIcon = (temperature: number) => {
         if (temperature > 25) {
             return <WbSunnyOutlinedIcon />;
@@ -42,9 +42,9 @@ export default function WeatherCard({ temprature, day }: IWeatherCardProps) {
         <Container elevation={3}>
             <CardHeader>
                 <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                    {getWeatherIcon(temprature)}
+                    {getWeatherIcon(temperature)}
                     <Typography variant="h6" sx={{ marginLeft: '8px' }}>
-                        {temprature}°C
+                        {temperature}°C
                     </Typography>
                 </Box>
                 <Typography variant="h6">Day {day}</Typography>

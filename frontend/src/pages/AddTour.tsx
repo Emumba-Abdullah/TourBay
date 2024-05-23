@@ -1,4 +1,3 @@
-// React and React Hooks
 import * as React from "react";
 import { useForm, Controller } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -11,9 +10,6 @@ import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import Snackbar from "@mui/material/Snackbar";
 import Alert from "@mui/material/Alert";
-
-// Joy UI Components
-import Textarea from "@mui/joy/Textarea";
 
 // Components
 import NavBar from "../components/NavBar";
@@ -36,13 +32,12 @@ const schema = yup.object().shape({
   price: yup
     .number()
     .required("Price is required")
-    .positive("Price must be positive"),
-  duration: yup
-    .number()
-    .required("Duration is required")
-    .positive("Duration must be positive")
-    .integer("Duration must be an integer"),
-  startDate: yup.date().required("Start date is required"),
+    .positive("Price must be positive")
+    .min(60, "Price must be greater than $60"),
+  startDate: yup
+    .date()
+    .required("Start date is required")
+    .min(new Date(), "Start date cannot be in the past"),
   endDate: yup
     .date()
     .required("End date is required")
@@ -55,10 +50,10 @@ const AddTour = () => {
     register,
     handleSubmit,
     reset,
-    formState: { errors },
-    control,
+    formState: { errors, isDirty, isValid },
   } = useForm({
     resolver: yupResolver(schema),
+    mode: "onChange",
   });
 
   const [snackbarOpen, setSnackbarOpen] = React.useState(false);
@@ -68,7 +63,12 @@ const AddTour = () => {
   const onSubmit = async (data: ITour) => {
     try {
       const newFormData = { ...data, images };
-      console.log(newFormData);
+      newFormData.facilities = data.facilities.split(",");
+      const start = new Date(data.startDate);
+      const end = new Date(data.endDate);
+      const duration = Math.ceil((end - start) / (1000 * 60 * 60 * 24));
+      newFormData.duration = duration;
+
       await AddTourApiCall(newFormData);
       setSnackbarMessage("Tour added successfully!");
       setSnackbarSeverity("success");
@@ -78,7 +78,6 @@ const AddTour = () => {
         city: "",
         description: "",
         price: "",
-        duration: "",
         startDate: "",
         endDate: "",
         facilities: "",
@@ -88,8 +87,6 @@ const AddTour = () => {
       setSnackbarMessage("Failed to add tour. Please try again.");
       setSnackbarSeverity("error");
       setSnackbarOpen(true);
-    } finally {
-      console.log("Tour added process completed");
     }
   };
 
@@ -133,22 +130,17 @@ const AddTour = () => {
                 label="City"
                 error={!!errors.city}
                 helperText={errors.city?.message}
-                autoFocus
               />
-              <Controller
-                name="description"
-                control={control}
-                render={({ field }) => (
-                  <Textarea
-                    {...field}
-                    id="description"
-                    placeholder="Add Tour Description"
-                    error={!!errors.description}
-                    helperText={errors.description?.message}
-                    required
-                    sx={{ mb: 1 }}
-                  />
-                )}
+              <TextField
+                {...register("description")}
+                margin="normal"
+                fullWidth
+                id="description"
+                label="Add Tour Description"
+                error={!!errors.description}
+                helperText={errors.description?.message}
+                multiline
+                required
               />
               <TextField
                 {...register("price")}
@@ -160,19 +152,6 @@ const AddTour = () => {
                 error={!!errors.price}
                 helperText={errors.price?.message}
                 required
-                autoFocus
-              />
-              <TextField
-                {...register("duration")}
-                margin="normal"
-                fullWidth
-                id="duration"
-                label="Number of Days"
-                type="number"
-                error={!!errors.duration}
-                helperText={errors.duration?.message}
-                required
-                autoFocus
               />
               <TextField
                 {...register("startDate")}
@@ -185,7 +164,6 @@ const AddTour = () => {
                 helperText={errors.startDate?.message}
                 required
                 InputLabelProps={{ shrink: true }}
-                autoFocus
               />
               <TextField
                 {...register("endDate")}
@@ -198,28 +176,25 @@ const AddTour = () => {
                 helperText={errors.endDate?.message}
                 required
                 InputLabelProps={{ shrink: true }}
-                autoFocus
               />
-              <Controller
-                name="facilities"
-                control={control}
-                render={({ field }) => (
-                  <Textarea
-                    {...field}
-                    id="facilities"
-                    placeholder="Add facilities"
-                    error={!!errors.facilities}
-                    helperText={errors.facilities?.message}
-                    required
-                    sx={{ mb: 1 }}
-                  />
-                )}
+              <TextField
+                {...register("facilities")}
+                margin="normal"
+                fullWidth
+                id="facilities"
+                label="Add facilities"
+                helperText={errors.facilities?.message}
+                error={!!errors.facilities}
+                required
+                InputLabelProps={{ shrink: true }}
+                multiline
               />
               <Button
                 type="submit"
                 fullWidth
                 variant="contained"
                 sx={{ mt: 3, mb: 2, bgcolor: "#F16B51" }}
+                disabled={!isDirty || !isValid}
               >
                 Add Tour
               </Button>
@@ -227,7 +202,7 @@ const AddTour = () => {
           </Box>
         </Box>
         <FormImage src="https://source.unsplash.com/random" />
-      </FormContainer>
+      </FormContainer>  
       <Snackbar
         open={snackbarOpen}
         autoHideDuration={6000}

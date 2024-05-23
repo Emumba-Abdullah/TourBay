@@ -7,6 +7,7 @@ import {
   getBookingById,
 } from "../controllers/bookingController";
 import auth from "../middleware/auth";
+import { getFilteredTours } from "../controllers/tourController";
 const bookingRouter: Router = express.Router();
 
 bookingRouter.post("/", auth, addBooking);

@@ -13,12 +13,16 @@ import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 // Types
 import { ITour } from '../types/types';
 
+//library imports
+import dayjs from 'dayjs';
 
-export default function TourFeaturesTable({ tourData }:ITour) {
+
+export default function TourFeaturesTable({ tourData }: ITour) {
+    console.log(tourData);
     const rows = [
         { label: 'Destination', value: tourData.city },
-        { label: 'Departure Location', value: `${tourData.city} airport` },
-        { label: 'Return', value: `${tourData.endDate} on 7pm` }
+        { label: 'Departure Location', value: `${tourData.city} airport on ${dayjs(tourData.startDate).format("YYYY-MM-DD")}` },
+        { label: 'Return', value: `${dayjs(tourData.endDate).format("YYYY-MM-DD")} on 7pm` }
     ];
 
     const styles = {
