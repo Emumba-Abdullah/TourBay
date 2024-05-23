@@ -18,7 +18,7 @@ const router = createBrowserRouter([
         index: true,
     },
     {
-        path: '/Register',
+        path: '/register',
         element: <Register />,
     },
     {
@@ -29,7 +29,7 @@ const router = createBrowserRouter([
                 element: <HomePage />,
             },
             {
-                path: '/myTours',
+                path: '/myBookings',
                 element: <MyTours />,
             },
             {

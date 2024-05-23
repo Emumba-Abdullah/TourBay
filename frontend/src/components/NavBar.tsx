@@ -29,7 +29,7 @@ import { StyledNavItems, StyledNavLink } from '../styles/navbarStyles'
 import logo from './../assets/logo.png'
 
 
-const pages = ['Tours', 'Add Tour', 'My Tours']
+const pages = ['Tours', 'Add Tour', 'My Bookings']
 
 export default function NavBar() {
     const dispatch = useAppDispatch()
@@ -159,7 +159,7 @@ export default function NavBar() {
                                 onClick={handleCloseNavMenu}
                             >
                                 <StyledNavLink
-                                    to={`/${page.replace(/\s+/g, '')}`}
+                                    to={`/${page.replace(/\s+/g, '').toLowerCase()}`}
                                 >
                                     {page}
                                 </StyledNavLink>
