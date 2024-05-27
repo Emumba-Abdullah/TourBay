@@ -1,6 +1,5 @@
-// React and React Router
 import { useState, useEffect } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 
 // Components
 import NavBar from "../components/NavBar";
@@ -31,11 +30,10 @@ import { ITour } from "../types/types";
 // Utils
 import { getTourById } from "../utils/apiUtils";
 
-const MyTours = () => {
+const TourDetail = () => {  // Change the component name to match the import
   const [tourData, setTourData] = useState<ITour | null>(null);
-  const location = useLocation();
+  const { tourId } = useParams(); // Extract tourId from URL params
   const navigate = useNavigate();
-  const tourId = location.state;
 
   useEffect(() => {
     if (tourId) {
@@ -57,7 +55,7 @@ const MyTours = () => {
   };
 
   if (!tourData) {
-    return null; 
+    return null;
   }
 
   return (
@@ -86,47 +84,16 @@ const MyTours = () => {
           </IconText>
         </DetailsBox>
 
-        <Grid
-          container
-          spacing={3}
-          alignItems="center"
-          justifyContent="center"
-          sx={{ height: "50vh", mt: 2 }}
-        >
-          <Grid
-            item
-            xs={12}
-            md={6}
-            sx={{ display: "flex", justifyContent: "center" }}
-          >
-            <Image
-              src="https://images.pexels.com/photos/1619317/pexels-photo-1619317.jpeg?auto=compress&cs=tinysrgb&w=600"
-              alt="Tour"
-            />
+        <Grid container spacing={3} alignItems="center" justifyContent="center" sx={{ height: "50vh", mt: 2 }}>
+          <Grid item xs={12} md={6} sx={{ display: "flex", justifyContent: "center" }}>
+            <Image src="https://images.pexels.com/photos/1619317/pexels-photo-1619317.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Tour" />
           </Grid>
 
-          <Grid
-            item
-            xs={12}
-            md={6}
-            sx={{ display: "flex", justifyContent: "center" }}
-          >
-            <Grid
-              container
-              spacing={2}
-              sx={{ height: "100%", maxWidth: "100%" }}
-            >
+          <Grid item xs={12} md={6} sx={{ display: "flex", justifyContent: "center" }}>
+            <Grid container spacing={2} sx={{ height: "100%", maxWidth: "100%" }}>
               {[1, 2, 3, 4].map((item) => (
-                <Grid
-                  key={item}
-                  item
-                  xs={6}
-                  sx={{ display: "flex", justifyContent: "center" }}
-                >
-                  <GalleryImage
-                    src="https://source.unsplash.com/random"
-                    alt={`Image ${item}`}
-                  />
+                <Grid key={item} item xs={6} sx={{ display: "flex", justifyContent: "center" }}>
+                  <GalleryImage src="https://source.unsplash.com/random" alt={`Image ${item}`} />
                 </Grid>
               ))}
             </Grid>
@@ -157,11 +124,7 @@ const MyTours = () => {
           </Grid>
         </Grid>
 
-        <BookButton
-          variant="contained"
-          size="large"
-          onClick={handleBookButtonClick}
-        >
+        <BookButton variant="contained" size="large" onClick={handleBookButtonClick}>
           Book now
         </BookButton>
       </Container>
@@ -169,4 +132,4 @@ const MyTours = () => {
   );
 };
 
-export default MyTours;
+export default TourDetail;  // Export the updated component

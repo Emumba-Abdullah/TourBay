@@ -23,7 +23,7 @@ const SignIn: React.FC = () => {
     };
     localStorage.setItem('userToken', JSON.stringify(response.data.token));
       dispatch(login(userData));
-    navigate("./homePage")
+    navigate("/homePage")
   };
 
   return (

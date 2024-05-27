@@ -5,7 +5,7 @@ import { Controller, useFormContext } from 'react-hook-form'
 // Date Range Picker
 import 'react-date-range/dist/styles.css'
 import 'react-date-range/dist/theme/default.css'
-import { DateRangePicker } from 'react-date-range'
+import { DateRangePicker, RangeKeyDict } from 'react-date-range'
 
 
 
@@ -23,7 +23,7 @@ export default function SelectDate({handleDateSelect}:IselectDateProps) {
         },
     ])
 
-    const handleSelect = (ranges) => {
+    const handleSelect = (ranges:RangeKeyDict) => {
         setState([ranges.selection])
         handleDateSelect(ranges.selection.startDate,ranges.selection.endDate)
     }

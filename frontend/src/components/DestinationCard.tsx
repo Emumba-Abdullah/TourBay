@@ -55,7 +55,7 @@ export default function DestinationCard({
   const { name, description, price, duration, images, startDate } = tourData;
 
   const handleCardClick = () => {
-    navigate("/TourDetail", { state: tourData._id });
+     navigate(`/tourDetail/${tourData._id}`);
   };
 
   const handleDelete = async () => {

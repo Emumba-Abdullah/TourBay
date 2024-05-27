@@ -24,7 +24,7 @@ const UpdateBooking: React.FC = () => {
   const handleUpdateBooking = async (data: IBooking) => {
     data.tours = initialData?.tours;
     await updateBookingApiCall(bookingId, data);
-    navigate('/myTours');
+    navigate('/myBookings');
   };
 
   if (!initialData) {
